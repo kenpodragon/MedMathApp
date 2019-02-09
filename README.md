@@ -28,6 +28,7 @@ Release notes:
 2) Create basic functionality
 3) Initial testing (calculations/basic functionality)
 4) Installation instructions
+5) Setup GIT issue tracking for features and roadmap from below
 
 FRAMEWORK/FUNCTIONALITY NEEDED (ALPHA 1):
 1) Finish entry areasfor data based on calculations
