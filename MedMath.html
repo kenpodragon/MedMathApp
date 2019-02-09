@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MedMathApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Med Math Practice Page</title>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="medmath.js"></script>
+
+</head>
+<body>
+
+<div ng-controller="MedMathCtrl" class="container-fluid" id="main-container">
+    <div class="container-fluid" id="loadingDiv" ng-show="loadingDiv">
+        <h1>LOADING...</h1>
+    </div>
+    <div class="container-fluid" id="loadedDiv" ng-cloak>
+        <div class="container-fluid" id="header">
+            <h1>Med Math Practice</h1>
+            <h2>Instructions</h2>
+            <p>INSTRUCTIONS GO HERE</p>
+            <h2>Scenario</h2>
+            <p>{{ scenarioText }}</p>
+        </div>
+        <div class="container-fluid" id="calc-area">
+            <h2>Calculation Area</h2>
+            <div id="calcFormArea">
+                <p>{{ calcFormText }}</p>
+            </div>
+            <div id="calcFormParams">
+                <div id="desiredDose" ng-show="desiredDoseArea">
+                    <h3>DD - Desired Dose Calculation</h3>
+                    <div id="weightCalculations" ng-show="showWeightCalcArea">
+                        <div class="column-fluid" id="weightConversions">
+                            <div class="row">
+                                {{ weightCalculationText }}
+                            </div>
+                            <div class="row">
+                                <div class="column-fluid"><label for="weightEntry">Weight:</label><input
+                                        name="weightEntry"
+                                        ng-model="weightEntryText"
+                                        type="number"
+                                        id="weightEntry"
+                                        class="text-right"/>
+                                </div>
+                                <div class="column-fluid">
+                                    <select ng-model="kgOrLb" ng-options="option for option in kbLbOpts"
+                                            ng-change="updateKgLbDD()"></select>
+                                </div>
+                                <div class="column-fluid">
+                                    <button ng-click="convertKgLb()" type="button" class="btn btn-info"
+                                            ng-show="showKgLbConvertButton">{{ kgLbButtonText}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {{ doseWeightCalculationText }}
+                        </div>
+                        <div class="row">
+                            <div class="column-fluid" id="doseWTDiv">
+                                <div class="column-fluid"><label for="dosePerKgEntry">Dose Per KG:</label><input
+                                        name="dosePerKgEntry"
+                                        ng-model="dosePerKgEntryText"
+                                        type="number"
+                                        id="dosePerKgEntry"
+                                        class="text-right"/>
+                                </div>
+                            </div>
+                            <div class="column-fluid">
+                                <select ng-model="dpkgGMM" ng-options="option for option in gmmOpts"
+                                        ng-change="updategmmDD()"></select>
+                            </div>
+                            <div class="column-fluid">
+                                <button ng-click="convertGmmDD(0)" type="button" class="btn btn-info"
+                                >{{ gmmDD1ButtonText}}
+                                </button>
+                                <button ng-click="convertGmmDD(1)" type="button" class="btn btn-info"
+                                >{{ gmmDD2ButtonText}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {{ desiredDoseCalculationText }}
+                        </div>
+                        <div class="row">
+                            <button ng-click="calcWtBsdDD()" type="button" class="btn btn-info"
+                            >Calculate Desired Dose from Weight
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            {{ desiredDoseWTCalculationText }}
+                        </div>
+                        <div class="row">
+                            <div class="column-fluid" id="desDoseWTDiv">
+                                <div class="column-fluid"><label for="desDoseEntry">Desired Dose:</label><input
+                                        name="desDoseEntry"
+                                        ng-model="desDoseEntryText"
+                                        type="number"
+                                        id="desDoseEntry"
+                                        class="text-right"/>
+                                </div>
+                            </div>
+                            <div class="column-fluid">
+                                <select ng-model="ddkgGMM" ng-options="option for option in gmmOpts"
+                                        ng-change="updateDDgmmDD()"></select>
+                            </div>
+                            <div class="column-fluid">
+                                <button ng-click="convertddGmmDD(0)" type="button" class="btn btn-info"
+                                >{{ ddgmmDD1ButtonText}}
+                                </button>
+                                <button ng-click="convertddGmmDD(1)" type="button" class="btn btn-info"
+                                >{{ ddgmmDD2ButtonText}}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="doseOnHand" ng-show="doseOnHandArea">
+                    <h3>DOH - Dose On Hand</h3>
+                    <p>PLACHOLDER FOR DOSE ON HAND CALCULATION</p>
+                </div>
+                <div id="dripSet" ng-show="dripSetArea">
+                    <h3>Drip Set</h3>
+                    <p>PLACHOLDER FOR DRIPSET SELECTION</p>
+                </div>
+                <div id="ivBolus" ng-show="ivBolusArea">
+                    <h3>IV Bolus Calculation</h3>
+                    <p>PLACHOLDER FOR IV BOLUS SELECTION</p>
+                </div>
+                <div id="fluidRate" ng-show="fluidRateArea">
+                    <h3>Fluid Rate Calculation</h3>
+                    <p>PLACHOLDER FOR IV BOLUS SELECTION</p>
+                </div>
+            </div>
+            <div class="container-fluid" id="action-buttons">
+                <button ng-click="refreshScenario()" type="button" class="btn btn-primary">Get New Scenario</button>
+                <button ng-click="resetCalculations()" type="button" class="btn btn-primary">Reset</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
