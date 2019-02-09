@@ -39,26 +39,26 @@ class Scenario {
         switch (this.scenarioType) {
             case SCENARIO_TYPES.DPM_CALC_WB: {
                 this.scenarioText = "I'm a WB DPM_CALC SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "WB * DD * DS / DOH";
+                this.calcFormHint = "PER MINUTE (Weight Based): PtWT * DD x DRIPSET / DOH [DOH = DRUG WT / BAG]";
                 break;
             }
             case SCENARIO_TYPES.DPM_CALC_NWB: {
                 this.scenarioText = "I'm a DPM_CALC SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "DD * DS / DOH";
+                this.calcFormHint = "PER MINUTE: DD x DRIPSET / DOH [DOH = DRUG WT / BAG]";
                 break;
             }
             case SCENARIO_TYPES.IV_BOLUS_WB:
                 this.scenarioText = "I'm an WB IV_BOLUS SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "WB * DD / DOH";
+                this.calcFormHint = "IV BOLUS/PUSH (Weight Based): PtWT * DD / DOH [DOH = DRUG WT / DRUG VOL]";
                 break;
             case SCENARIO_TYPES.IV_BOLUS_NWB: {
                 this.scenarioText = "I'm an IV_BOLUS SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "DD / DOH";
+                this.calcFormHint = "IV BOLUS/PUSH: DD / DOH [DOH = DRUG WT / VOL]";
                 break;
             }
             case SCENARIO_TYPES.DPM_RATE: {
                 this.scenarioText = "I'm a DPM_RATE SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "VOL * DS / TIME";
+                this.calcFormHint = "OVER TIME: BAG * DRIPSET / TIME";
                 break;
             }
             default:

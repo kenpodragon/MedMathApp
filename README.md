@@ -41,6 +41,10 @@ FRAMEWORK/FUNCTIONALITY NEEDED (ALPHA 1):
 2) Create framework for random generation of scenarios
  - choose random med math problem type out of the 5 available
  - generate random scenario text and calculate correct answers
+ - current scope is generate random drug names from list, generic drug dosages, generic patient weights (standard from KG/LB list), generic dripsets (standard selection drop down), generic IV bag sizes (standard drop down)
+ - generic scenario text (PT age, gender, and contition)
+ - generic text format with plug in number and TEXT areas from random list
+ - scenario class update to score calculation values and correct answers
  - display scenario
  - on "check answer" - show correct calculation breakdown in new area
  - highlight errors in red
@@ -52,6 +56,9 @@ FRAMEWORK/FUNCTIONALITY NEEDED (ALPHA 1):
  3) Add heroku deployment
  4) Text stuff (instructions, formulas, etc...)
  5) UI and usability bits
+ - Instruction display
+ - Formula standardization and nomenclature
+ - showing/hiding of areas based on scenario
  6) Error messages and displays
 
 ROADMAP
@@ -65,7 +72,7 @@ ALPHA 2:
 5) Code Cleanup
 - standardize JScript files and locations
 - standard interfaces, redundant functionality condensation
-6) Scenario drug listing to map correctly to actual symptoms/dosages
+6) Scenario drug listing to map correctly to actual symptoms/dosages/ages/peds vs adult vs geriariatric
 7) Settings (question types, KG to LB conversions, show/hide main formula, space for answer only, hide conversion buttons {remove some auto-calc functions}, display formulas on hover or hide completely)
 8) KG to LB conversion only quiz
 9) G->MG->MCG conversion only quiz
