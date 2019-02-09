@@ -39,9 +39,18 @@ TBD - PRE-REQ: heroku setup, container setup, local heroku push setup (links to 
 TBD - npm local setup for local debugging via webstorm
 TBD - DEPLOY TO HEROKU (steps, instructions, etc...)
 DEPLOY AND TEST HEROKU:
+npm install
 START SERVER
+heroku local web
+heroku ps:restart
+heroku dyno:start
 STOP SERVER
+heroku dyno:stop 
+heroku ps:stop run
 REVIEW LOGS
+heroku open
+heroku logs --tail
+heroku run bash
 
 
 

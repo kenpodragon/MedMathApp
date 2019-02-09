@@ -2,16 +2,29 @@
   "name": "medmath",
   "version": "1.0.0",
   "description": "Simple HTML5/AngularJS (browser only) to allow Paramedics to Practice their Medic Math.",
-  "main": "medmath.js",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kenpodragon/MedMathApp.git"
   },
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.6",
+    "express": "^4.15.2",
+    "consolidate": "^0.15.1"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "author": "Stephen A Salaka",
+  "license": "APACHE",
   "bugs": {
     "url": "https://github.com/kenpodragon/MedMathApp/issues"
   },
