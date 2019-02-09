@@ -1,0 +1,19 @@
+{
+  "name": "medmath",
+  "version": "1.0.0",
+  "description": "Simple HTML5/AngularJS (browser only) to allow Paramedics to Practice their Medic Math.",
+  "main": "medmath.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenpodragon/MedMathApp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kenpodragon/MedMathApp/issues"
+  },
+  "homepage": "https://github.com/kenpodragon/MedMathApp#readme"
+}
