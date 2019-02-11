@@ -35,9 +35,7 @@ PRE-REQUISITES:
 5) Create heroku deployment app - heroku apps:create "APPNAME" (verify remotes have been added: git remote - v)
 6) Deploy to heroku (git push heroku master)
 SETUP LOCAL WEBSTORM SERVER:
-TBD - PRE-REQ: heroku setup, container setup, local heroku push setup (links to do this go here)
-TBD - npm local setup for local debugging via webstorm
-TBD - DEPLOY TO HEROKU (steps, instructions, etc...)
+TBD - 
 DEPLOY AND TEST HEROKU:
 npm install
 START SERVER
