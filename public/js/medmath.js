@@ -1,122 +1,5 @@
-//DECLARE ENUMS
-const SCENARIO_TYPES = {
-    DPM_CALC_WB: "DPM_CALC_WB",
-    DPM_CALC_NWB: "DPM_CALC_NWB",
-    IV_BOLUS_WB: "IV_BOLUS_WB",
-    IV_BOLUS_NWB: "IV_BOLUS_NWB",
-    DPM_RATE: "DPM_RATE"
-};
-
-const SCENARIO_TYPES_KEYS = Object.keys(SCENARIO_TYPES);
-
-const KG_LB = {
-    KG: "kg",
-    LB: "lb"
-};
-
-const KG_LB_KEYS = Object.keys(KG_LB);
-
-const G_MG_MCG = {
-    G: "g",
-    MG: "mg",
-    MCG: "mcg"
-};
-
-const G_MG_MCG_KEYS = Object.keys(G_MG_MCG);
-
 function getRandomType() {
     return SCENARIO_TYPES_KEYS[Math.floor(Math.random() * SCENARIO_TYPES_KEYS.length)];
-}
-
-//HELPER CLASS
-class Scenario {
-    constructor() {
-        this.scenarioType = getRandomType();
-    }
-
-    generateNewScenario() {
-        this.scenarioType = getRandomType();
-        switch (this.scenarioType) {
-            case SCENARIO_TYPES.DPM_CALC_WB: {
-                this.scenarioText = "I'm a WB DPM_CALC SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "PER MINUTE (Weight Based): PtWT * DD x DRIPSET / DOH [DOH = DRUG WT / BAG]";
-                break;
-            }
-            case SCENARIO_TYPES.DPM_CALC_NWB: {
-                this.scenarioText = "I'm a DPM_CALC SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "PER MINUTE: DD x DRIPSET / DOH [DOH = DRUG WT / BAG]";
-                break;
-            }
-            case SCENARIO_TYPES.IV_BOLUS_WB:
-                this.scenarioText = "I'm an WB IV_BOLUS SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "IV BOLUS/PUSH (Weight Based): PtWT * DD / DOH [DOH = DRUG WT / DRUG VOL]";
-                break;
-            case SCENARIO_TYPES.IV_BOLUS_NWB: {
-                this.scenarioText = "I'm an IV_BOLUS SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "IV BOLUS/PUSH: DD / DOH [DOH = DRUG WT / VOL]";
-                break;
-            }
-            case SCENARIO_TYPES.DPM_RATE: {
-                this.scenarioText = "I'm a DPM_RATE SCENARIO " + Math.floor((Math.random() * 100) + 1);
-                this.calcFormHint = "OVER TIME: BAG * DRIPSET / TIME";
-                break;
-            }
-            default:
-                console.log("Invalid Scenario Type");
-        }
-    }
-
-    generateNewScenarioAndUpdatePage(scope) {
-        this.generateNewScenario();
-        this.updatePage(scope);
-        Scenario.showAndHideDivs(scope, this.scenarioType);
-    }
-
-    updatePage(scope) {
-        scope.scenarioText = this.scenarioText;
-        scope.calcFormText = this.calcFormHint;
-    }
-
-    static showAndHideDivs(scope, sType) {
-        Scenario.hideAllDivs(scope);
-
-        switch (sType) {
-            case SCENARIO_TYPES.DPM_CALC_WB: {
-                scope.showWeightCalcArea = true;
-            }
-            case SCENARIO_TYPES.DPM_CALC_NWB:{
-                scope.doseOnHandArea = true;
-                scope.desiredDoseArea = true;
-                scope.dripSetArea = true;
-                break;
-            }
-            case SCENARIO_TYPES.IV_BOLUS_WB: {
-                scope.showWeightCalcArea = true;
-            }
-            case SCENARIO_TYPES.IV_BOLUS_NWB:{
-                scope.doseOnHandArea = true;
-                scope.desiredDoseArea = true;
-                break;
-            }
-            case SCENARIO_TYPES.DPM_RATE: {
-                scope.dripSetArea= true;
-                scope.fluidRateArea = true;
-                break;
-            }
-            default:
-                console.log("Invalid Scenario Type");
-        }
-    }
-
-    static hideAllDivs(scope){
-        scope.showWeightCalcArea = false;
-        scope.doseOnHandArea = false;
-        scope.dripSetArea= false;
-        scope.ivBolusArea = false;
-        scope.fluidRateArea = false;
-
-    }
-
 }
 
 function changeKgLbButtonText(scope) {
@@ -415,23 +298,38 @@ function clearScreen(scope) {
     //TODO: change these when needing changes
     //TODO: Reset everything to default here
     scope.weightCalculationText = "";
+    scope.correctAnswerText = "";
     scope.doseWeightCalculationText = "";
     scope.desiredDoseWTCalculationText = "";
     scope.desiredDoseCalculationText = "";
     scope.weightEntryText = 0;
     scope.dosePerKgEntryText = 0;
     scope.desDoseEntryText = 0;
+    scope.finalAnswerEntryText = 0;
     scope.kgOrLb = scope.kbLbOpts[0];
     scope.dpkgGMM = scope.gmmOpts[0];
     scope.ddkgGMM = scope.gmmOpts[0];
+    scope.answerUnits = scope.answerOpts[0];
     changeKgLbButtonText(scope);
     changeGMMButtonText(scope);
     changeDDGMMButtonText(scope);
 }
 
+function checkAnswer(scope){
+    //TODO: show correct answers for the scenario in question as well as all calculations
+    //TODO: error messages when incorrect
+    scope.correctAnswerText = scope.currentScenario.getCorrectAnswerText();
+
+
+    scope.inProgressButtonsShow = false;
+    scope.nextQuestionButtonsShow = true;
+}
+
 function initMMP(scope) {
     //Display the initial scenario
     scope.currentScenario.generateNewScenarioAndUpdatePage(scope);
+    scope.inProgressButtonsShow = true;
+    scope.nextQuestionButtonsShow = false;
 
     //Hide the Loading DIV
     scope.loadingDiv = false;
@@ -439,48 +337,5 @@ function initMMP(scope) {
     clearScreen(scope);
 }
 
-//INITIALIZE ANGULAR
-const app = angular.module("MedMathApp", []);
-app.controller("MedMathCtrl", function ($scope) {
-    $scope.currentScenario = new Scenario();
-    $scope.kbLbOpts = KG_LB_KEYS;
-    $scope.gmmOpts = G_MG_MCG_KEYS;
 
-    //Function for submit and reset scenario
-    $scope.resetCalculations = function () {
-        clearScreen($scope);
-    };
-    $scope.refreshScenario = function () {
-        initMMP($scope);
-    };
-    $scope.convertKgLb = function () {
-        convertKgLbFunc($scope);
-    };
-    $scope.updateKgLbDD = function () {
-        changeKgLbButtonText($scope);
-    };
-    $scope.updategmmDD = function () {
-        changeGMMButtonText($scope);
-    };
-    $scope.convertGmmDD = function (selGmmConvOpt) {
-        convertGmmFunc($scope, selGmmConvOpt);
-    };
-    $scope.updateDDgmmDD = function () {
-        changeDDGMMButtonText($scope);
-    };
-    $scope.convertddGmmDD = function (selGmmConvOpt) {
-        convertddGmmFunc($scope, selGmmConvOpt);
-    };
-    $scope.calcWtBsdDD = function () {
-        calcWtBsdDD($scope);
-    };
-
-    //Initialize the display after Angular has finished loading
-    initMMP($scope);
-});
-
-//TODO: Getting new scenario should print out correct answers before refreshing
-//TODO: Hide and reorder desired dose and buttons when there are no weight base calculations necessary.
-//TODO: Score
-//TODO: embed JScript in HTML and distribute
 

@@ -18,7 +18,13 @@
             integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="medmath.js"></script>
+
+    <!-- Files for Med Math -->
+    <link rel="stylesheet" href="css/medmath.css"/>
+    <script src="js/constants.js"></script>
+    <script src="js/scenario.js"></script>
+    <script src="js/medmath.js"></script>
+    <script src="js/index.js"></script>
 
 </head>
 <body>
@@ -31,22 +37,32 @@
         <div class="container-fluid" id="header">
             <h1>Med Math Practice</h1>
             <h2>Instructions</h2>
-            <p>INSTRUCTIONS GO HERE</p>
-            <p>DD = Desired Dose - What the doctor has ordered (weight based and/or rate based)</p>
-            <p>PtWT = Patient Weight - the weight of the Patient (usually in kg for weight based calculations)</p>
-            <p>DOH = Drug on Hand - amount of drug (concentration) available</p>
-            <p>DS = Drip set - size of drip set (micro/macro - 60/15/10 - gtt/ml/min)</p>
-            <p>BAG = Size of the IV (in ml)</p>
-            <p>DRUG WT = Weight of available drug (g/mg/mcg)</p>
-            <p>DRUG VOL = Volume of packaged drug (ml)</p>
-            <p>Look out for unit conversions (make sure everything is converted correctly)</p>
+            <div class="showhideroot">
+                <p>Hover Here for more information</p>
+                <div class="showme">
+                    <p>DD = Desired Dose - What the doctor has ordered (weight based and/or rate based)</p>
+                    <p>PtWT = Patient Weight - the weight of the Patient (usually in kg for weight based
+                        calculations)</p>
+                    <p>DOH = Drug on Hand - amount of drug (concentration) available</p>
+                    <p>DS = Drip set - size of drip set (micro/macro - 60/15/10 - gtt/ml/min)</p>
+                    <p>BAG = Size of the IV (in ml)</p>
+                    <p>DRUG WT = Weight of available drug (g/mg/mcg)</p>
+                    <p>DRUG VOL = Volume of packaged drug (ml)</p>
+                    <p>Look out for unit conversions (make sure everything is converted correctly)</p>
+                </div>
+            </div>
             <h2>Scenario</h2>
-            <p>{{ scenarioText }}</p>
+            <div class="scenario_block"><p>{{ scenarioText }}</p></div>
         </div>
         <div class="container-fluid" id="calc-area">
             <h2>Calculation Area</h2>
-            <div id="calcFormArea">
+            <div id="calcFormArea"></div>
+            <div class="showhideroot">
+                <p>Hover here for a calculation hint.</p>
+                <div class="showme">
                 <p>{{ calcFormText }}</p>
+                </div>
+            </div>
             </div>
             <div id="calcFormParams">
                 <div id="desiredDose" ng-show="desiredDoseArea">
@@ -157,10 +173,33 @@
                     <h3>Fluid Rate Calculation</h3>
                     <p>PLACHOLDER FOR IV BOLUS SELECTION</p>
                 </div>
+                <div id="answerPlace">
+                    <h3>Final Answer</h3>
+                    <div class="row">
+                        <div class="column-fluid"><label for="finalAnswerEntry">Final Answer:</label><input
+                                name="finalAnswerEntry"
+                                ng-model="finalAnswerEntryText"
+                                type="number"
+                                id="finalAnswerEntry"
+                                class="text-right"/>
+                        </div>
+                        <div class="column-fluid">
+                            <select ng-model="answerUnits" ng-options="option for option in answerOpts"></select>
+                        </div>
+                    </div>
+                    <div class="row correct_answer_block">
+                        {{ correctAnswerText }}
+                    </div>
+                </div>
             </div>
             <div class="container-fluid" id="action-buttons">
-                <button ng-click="refreshScenario()" type="button" class="btn btn-primary">Get New Scenario</button>
-                <button ng-click="resetCalculations()" type="button" class="btn btn-primary">Reset</button>
+                <div ng-show="inProgressButtonsShow">
+                    <button ng-click="checkAnswer()" type="button" class="btn btn-primary">Check Answer</button>
+                    <button ng-click="resetCalculations()" type="button" class="btn btn-primary">Reset</button>
+                </div>
+                <div ng-show="nextQuestionButtonsShow">
+                    <button ng-click="goNext()" type="button" class="btn btn-primary">Next</button>
+                </div>
             </div>
         </div>
     </div>

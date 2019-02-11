@@ -7,7 +7,7 @@ express()
   .use(express.static(path.join(__dirname, 'public')))
   .engine('html',engines.mustache)
   .set('view engine', 'html')  
-  .get('/', (req, res) => res.sendFile(path.join(__dirname + '/public/MedMath.html')))
+  .get('/', (req, res) => res.sendFile(path.join(__dirname + '/public/index.html')))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))  
   
 
